@@ -1,6 +1,6 @@
 # react-native-google-code-scanner-android
 
-Google Code Scanner API (Android only) for react native
+[Google Code Scanner API](https://developers.google.com/ml-kit/vision/barcode-scanning/code-scanner) (Android only) for react native
 
 ## Installation
 
