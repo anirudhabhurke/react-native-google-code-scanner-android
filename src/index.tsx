@@ -17,6 +17,15 @@ const GoogleCodeScannerAndroid = NativeModules.GoogleCodeScannerAndroid
       }
     );
 
+/**
+ * Initializes the scanner.
+ * This function should be called before using any other functions or components from the library.
+ *
+ * @param options - Optional configuration options for the scanner.
+ * @param options.barcodeFormats - An array of barcode formats to scan. Default is [BarcodeFormat.FORMAT_ALL_FORMATS].
+ * @param options.enableAutoZoom - Enable auto zoom. Default is false.
+ * @param options.allowManualInput - Allow manual input. Default is false.
+ */
 export function initialize(options?: ReactNativeGoogleCodeScannerOptions) {
   if (Platform.OS !== 'android') {
     console.error(
@@ -27,10 +36,14 @@ export function initialize(options?: ReactNativeGoogleCodeScannerOptions) {
   return GoogleCodeScannerAndroid.initialize(options);
 }
 
-export function scan(
-  onBarcodeAvailable: (barcode: string) => void,
-  onError: (error: string) => void
-) {
+/**
+ *
+ * @param onBarcodeAvailable - gets the barcode string from the scanner
+ * @param onError - gets the error message from the scanner.
+ *
+ * Note: You may get the following error message for the first time, while downloading the app outside of play store - "Waiting for the Barcode UI module to be downloaded."
+ */
+export function scan(onBarcodeAvailable: OnBarcodeAvailable, onError: OnError) {
   if (Platform.OS !== 'android') {
     console.error(
       'react-native-google-code-scanner-android is only available on Android devices'
@@ -63,3 +76,7 @@ export enum BarcodeFormat {
   FORMAT_PDF417 = 2048,
   FORMAT_AZTEC = 4096,
 }
+
+type OnBarcodeAvailable = (barcode: string) => void;
+
+type OnError = (error: string) => void;

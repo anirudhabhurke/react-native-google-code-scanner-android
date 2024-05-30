@@ -1,6 +1,6 @@
 # react-native-google-code-scanner-android
 
-[Google Code Scanner API](https://developers.google.com/ml-kit/vision/barcode-scanning/code-scanner) (Android only) for react native
+React Native wrapper for [Google Code Scanner API](https://developers.google.com/ml-kit/vision/barcode-scanning/code-scanner) (Android only)
 
 ## Installation
 
@@ -28,11 +28,11 @@ initialize({
 // ...
 // scan for codes
 await scan(
-  (barcode) => {
+  (barcode: string) => {
     // on code available
     setResult(barcode);
   },
-  (error) => {
+  (error: string) => {
     // on receiving error
     console.error(error);
   }
