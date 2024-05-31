@@ -1,6 +1,6 @@
 {
   "name": "react-native-google-code-scanner-android",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "React Native wrapper for Google Code Scanner API (Android only)",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
