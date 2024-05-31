@@ -8,6 +8,25 @@ React Native wrapper for [Google Code Scanner API](https://developers.google.com
 npm install react-native-google-code-scanner-android
 ```
 
+### Exclude platforms other than Android
+
+```
+// react-native.config.js
+module.exports = {
+  dependencies: {
+    // ...
+    'react-native-google-code-scanner-android': {
+      platforms: {
+        ios: null,
+        web: null,
+        windows: null,
+        macos: null,
+      },
+    },
+  },
+};
+```
+
 ## Usage
 
 ```js
