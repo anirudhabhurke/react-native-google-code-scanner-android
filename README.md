@@ -18,9 +18,9 @@ module.exports = {
     'react-native-google-code-scanner-android': {
       platforms: {
         ios: null,
-        web: null,
-        windows: null,
-        macos: null,
+        // web: null,
+        // windows: null,
+        // macos: null,
       },
     },
   },
