@@ -62,11 +62,14 @@ class GoogleCodeScannerAndroidModule(reactContext: ReactApplicationContext) :
       throw IllegalStateException("Scanner not initialized")
     }
     val scanner = GmsBarcodeScanning.getClient(this.reactApplicationContext, options!!)
-    scanner.startScan().addOnSuccessListener { barcode ->
-      onBarcodeAvailable.invoke(barcode.rawValue)
-    }.addOnFailureListener {
-      onError.invoke(it.message ?: "Unknown error")
-    }
+    scanner.startScan()
+      .addOnSuccessListener { barcode ->
+        onBarcodeAvailable.invoke(barcode.rawValue)
+      }.addOnCanceledListener {
+        onError.invoke("canceled")
+      }.addOnFailureListener {
+        onError.invoke(it.message ?: "Unknown error")
+      }
   }
 
   companion object {
