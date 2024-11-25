@@ -1,4 +1,8 @@
-import { NativeModules, Platform } from 'react-native';
+import { NativeModules, Platform, NativeEventEmitter } from 'react-native';
+
+const eventEmitter = new NativeEventEmitter(
+  NativeModules.GoogleCodeScannerAndroid
+);
 
 const LINKING_ERROR =
   `The package 'react-native-google-code-scanner-android' doesn't seem to be linked. Make sure: \n\n` +
@@ -52,6 +56,68 @@ export function scan(onBarcodeAvailable: OnBarcodeAvailable, onError: OnError) {
   }
   return GoogleCodeScannerAndroid.scan(onBarcodeAvailable, onError);
 }
+
+/**
+ * Checks if the barcode scanner module is available on the device
+ * @returns Promise<boolean> indicating if module is available
+ */
+export function checkModuleAvailability(): Promise<boolean> {
+  if (Platform.OS !== 'android') {
+    console.error(
+      'react-native-google-code-scanner-android is only available on Android devices'
+    );
+    return Promise.resolve(false);
+  }
+  return new Promise((resolve, reject) => {
+    GoogleCodeScannerAndroid.checkModuleAvailability(
+      (error: string, result: boolean) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result);
+        }
+      }
+    );
+  });
+}
+
+/**
+ * Installs the barcode scanner module if not already installed
+ * @returns Promise<boolean> indicating if module is already installed
+ */
+export function installModule(): Promise<boolean> {
+  if (Platform.OS !== 'android') {
+    console.error(
+      'react-native-google-code-scanner-android is only available on Android devices'
+    );
+    return Promise.resolve(false);
+  }
+  return new Promise((resolve, reject) => {
+    GoogleCodeScannerAndroid.installModule((error: string, result: boolean) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+}
+
+/**
+ * Subscribes to the installation progress event
+ *
+ * @param callback - callback function to be called when the installation progress changes
+ * @returns EmitterSubscription
+ */
+export function subscribeToInstallProgress(
+  callback: (event: InstallProgressEvent) => void
+) {
+  return eventEmitter.addListener('moduleInstallProgress', callback);
+}
+
+type InstallProgressEvent = {
+  progress: number;
+};
 
 export interface ReactNativeGoogleCodeScannerOptions {
   barcodeFormats?: BarcodeFormat[];

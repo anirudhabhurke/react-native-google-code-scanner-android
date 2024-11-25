@@ -5,6 +5,9 @@ import {
   BarcodeFormat,
   initialize,
   scan,
+  checkModuleAvailability,
+  installModule,
+  subscribeToInstallProgress,
 } from 'react-native-google-code-scanner-android';
 
 export default function App() {
@@ -15,6 +18,20 @@ export default function App() {
       barcodeFormats: [BarcodeFormat.FORMAT_ALL_FORMATS],
       enableAutoZoom: true,
       allowManualInput: true,
+    });
+  }, []);
+
+  React.useEffect(() => {
+    checkModuleAvailability().then((isAvailable) => {
+      console.log('isAvailable', isAvailable);
+      if (!isAvailable) {
+        installModule().then((isInstalled) => {
+          console.log('isInstalled', isInstalled);
+        });
+        subscribeToInstallProgress((progress) => {
+          console.log('progress', progress.progress);
+        });
+      }
     });
   }, []);
 

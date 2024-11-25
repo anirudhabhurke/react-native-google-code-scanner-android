@@ -34,6 +34,9 @@ import {
   initialize,
   scan,
   BarcodeFormat,
+  checkModuleAvailability,
+  installModule,
+  subscribeToInstallProgress,
 } from 'react-native-google-code-scanner-android';
 
 // ...
@@ -56,6 +59,20 @@ await scan(
     console.error(error);
   }
 );
+
+// ...
+// check if the module is available
+const isAvailable = await checkModuleAvailability();
+if (!isAvailable) {
+  // install the module
+  const isInstalled = await installModule();
+}
+
+// ...
+// subscribe to install progress
+subscribeToInstallProgress((progress) => {
+  console.log(`Install progress: ${progress}%`);
+});
 ```
 
 ## Contributing
