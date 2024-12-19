@@ -1,6 +1,12 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Text, Button } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  Button,
+  type EmitterSubscription,
+} from 'react-native';
 import {
   BarcodeFormat,
   initialize,
@@ -22,17 +28,26 @@ export default function App() {
   }, []);
 
   React.useEffect(() => {
-    checkModuleAvailability().then((isAvailable) => {
+    let installProgressSubscription: EmitterSubscription | undefined;
+    const checkAndInstallModule = async () => {
+      const isAvailable = await checkModuleAvailability();
       console.log('isAvailable', isAvailable);
       if (!isAvailable) {
-        installModule().then((isInstalled) => {
-          console.log('isInstalled', isInstalled);
-        });
-        subscribeToInstallProgress((progress) => {
+        const isInstalled = await installModule();
+        console.log('isInstalled', isInstalled);
+        installProgressSubscription = subscribeToInstallProgress((progress) => {
           console.log('progress', progress.progress);
         });
       }
-    });
+    };
+
+    checkAndInstallModule();
+
+    return () => {
+      if (installProgressSubscription) {
+        installProgressSubscription.remove();
+      }
+    };
   }, []);
 
   const openScanner = async () => {
