@@ -30,7 +30,7 @@ class GoogleCodeScannerAndroidModule(private val reactContext: ReactApplicationC
       .emit(eventName, params)
   }
 
-  @ReactMethod(isBlockingSynchronousMethod = true)
+  @ReactMethod
   fun initialize(barcodeOptions: ReadableMap?) {
     val builder = GmsBarcodeScannerOptions.Builder()
 
