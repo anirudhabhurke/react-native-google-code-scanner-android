@@ -2,6 +2,9 @@
 
 React Native wrapper for [Google Code Scanner API](https://developers.google.com/ml-kit/vision/barcode-scanning/code-scanner) (Android only)
 
+> ⚠️ **Recommendation**: While this library is fully functional, I suggest using [Expo Camera](https://docs.expo.dev/versions/latest/sdk/camera) for most projects.  
+> It supports code scanning with a similar approach, works on iOS, and is actively maintained with strong community support, making it the more reliable long‑term option.
+
 ## Installation
 
 ```sh
